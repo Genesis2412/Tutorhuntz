@@ -8,8 +8,10 @@ import {
   Card,
   Alert,
 } from "react-bootstrap";
+import { auth } from "../../firebase-config";
 import { createUserWithEmailAndPassword } from "@firebase/auth";
-import { auth } from "../firebase-config";
+import { db } from "../../firebase-config";
+import { collection, addDoc } from "firebase/firestore";
 import "./register.css";
 
 export default function Register() {
@@ -27,7 +29,7 @@ export default function Register() {
   const [state, setState] = useState("");
   const zipNumberRef = useRef();
   const homeNumberRef = useRef();
-  const phoneNumberRef = useRef();
+  const mobileNumberRef = useRef();
   const additionalNumberRef = useRef();
 
   //account details input
@@ -35,6 +37,8 @@ export default function Register() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
+
+  //messages
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -52,11 +56,30 @@ export default function Register() {
       setSuccess("");
       setError("");
       setLoading(true);
+
       await createUserWithEmailAndPassword(
         auth,
         emailRef.current.value,
         passwordRef.current.value
       );
+
+      await addDoc(collection(db, "users"), {
+        title: { title },
+        gender: { gender },
+        first_name: firstNameRef.current.value,
+        middle_name: middleNameRef.current.value,
+        last_name: lastNameRef.current.value,
+        dob: { date },
+        address: addressRef.current.value,
+        city: cityRef.current.value,
+        state: { state },
+        zip_no: zipNumberRef.current.value,
+        home_no: homeNumberRef.current.value,
+        mobile_no: mobileNumberRef.current.value,
+        additional_no: additionalNumberRef.current.value,
+        account_type: { type },
+      });
+
       setSuccess("Account created");
     } catch {
       setError("Failed to create an account / Account may be existing");
@@ -114,7 +137,6 @@ export default function Register() {
                       type="text"
                       placeholder="Enter first name*"
                       ref={firstNameRef}
-                      required
                     />
                   </Form.Group>
 
@@ -123,7 +145,6 @@ export default function Register() {
                       type="text"
                       placeholder="Enter middle name*"
                       ref={middleNameRef}
-                      required
                     />
                   </Form.Group>
 
@@ -132,7 +153,6 @@ export default function Register() {
                       type="text"
                       placeholder="Enter last name*"
                       ref={lastNameRef}
-                      required
                     />
                   </Form.Group>
                 </Row>
@@ -150,11 +170,7 @@ export default function Register() {
                 <Form.Label>Contact Details</Form.Label>
 
                 <Form.Group className="mb-3">
-                  <Form.Control
-                    placeholder="Enter Address*"
-                    ref={addressRef}
-                    required
-                  />
+                  <Form.Control placeholder="Enter Address*" ref={addressRef} />
                 </Form.Group>
 
                 <Row className="mb-3">
@@ -163,7 +179,6 @@ export default function Register() {
                       type="text"
                       placeholder="Enter City*"
                       ref={cityRef}
-                      required
                     />
                   </Form.Group>
 
@@ -182,7 +197,6 @@ export default function Register() {
                       type="text"
                       placeholder="Enter zip number"
                       ref={zipNumberRef}
-                      required
                     />
                   </Form.Group>
                 </Row>
@@ -193,16 +207,14 @@ export default function Register() {
                       type="tel"
                       placeholder="Enter home number*"
                       ref={homeNumberRef}
-                      required
                     />
                   </Form.Group>
 
                   <Form.Group as={Col}>
                     <Form.Control
                       type="tel"
-                      placeholder="Enter phone number*"
-                      ref={phoneNumberRef}
-                      required
+                      placeholder="Enter mobile number*"
+                      ref={mobileNumberRef}
                     />
                   </Form.Group>
 
@@ -211,7 +223,6 @@ export default function Register() {
                       type="tel"
                       placeholder="Enter additional number"
                       ref={additionalNumberRef}
-                      required
                     />
                   </Form.Group>
                 </Row>
@@ -235,7 +246,6 @@ export default function Register() {
                     type="email"
                     placeholder="Enter email*"
                     ref={emailRef}
-                    required
                   />
                 </Form.Group>
 
@@ -245,7 +255,6 @@ export default function Register() {
                       type="password"
                       placeholder="Enter password*"
                       ref={passwordRef}
-                      required
                     />
                   </Form.Group>
 
@@ -254,7 +263,6 @@ export default function Register() {
                       type="password"
                       placeholder="Confirm password*"
                       ref={passwordConfirmRef}
-                      required
                     />
                   </Form.Group>
                 </Row>
