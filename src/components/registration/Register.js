@@ -42,12 +42,7 @@ function Register() {
     "zLorem, ipsum dolor sit amet consectetur adipisicing elit. Cumque ipsum molestias nam. Possimus, facilis vero! A corrupti unde pariatur vitae ipsam modi? Facere ullam pariatur veritatis iure perferendis cumque reiciendis!",
   ];
 
-  const FormImages = [
-    "https://images.wallpaperscraft.com/image/single/forest_fog_dark_127172_2560x1080.jpg",
-    "https://wi.wallpapertip.com/wsimgs/159-1596990_dark-minimal-mountains-at-night-1080p-laptop-full.jpg",
-    "https://ak.picdn.net/shutterstock/videos/1036366835/thumb/1.jpg?ip=x480",
-    "https://wallpapercave.com/wp/z7tXPkz.jpg",
-  ];
+  const FormImages = [""];
 
   const PageDisplay = () => {
     switch (page) {
@@ -82,28 +77,41 @@ function Register() {
 
   return (
     <>
-      <Container fluid>
-        <Row>
-          <Col id="banner">
+      {/* <Container>
+        <Row className="register">
+          <Col className="registerBanner" xs={6}>
+            <img
+              src="https://cdni.iconscout.com/illustration/premium/thumb/sign-up-3391266-2937870.png"
+              alt="bannerImages"
+            />
             <div className="content">
               <h1>{FormTitles[page]}</h1>
               <p>{FormParagraph[page]}</p>
               <h5>Already has an account?</h5>
               <Button>Login</Button>
             </div>
-            <img src={FormImages[page]} alt="banner" />
+          </Col>
+
+          <Col className="registerForms">
+            <div>{PageDisplay()}</div>
           </Col>
         </Row>
-        <Row>
-          <Col>
-            <Container className="d-flex align-items-center" id="registerBody">
-              <div className="w-100">
-                <Card id="cardBody">
-                  <Card.Body>{PageDisplay()}</Card.Body>
-                </Card>
-              </div>
-            </Container>
+      </Container> */}
+
+      <Container fluid>
+        <Row className="register">
+          <Col className="registerBanner" xs={6}>
+            <h1>{FormTitles[page]}</h1>
+            <p>{FormParagraph[page]}</p>
+            <img
+              src="https://cdni.iconscout.com/illustration/premium/thumb/sign-up-3391266-2937870.png"
+              alt="bannerImages"
+            />
+            <h5>Already has an account?</h5>
+            <Button>Login</Button>
           </Col>
+
+          <Col className="registerForms">{PageDisplay()}</Col>
         </Row>
       </Container>
     </>
